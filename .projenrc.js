@@ -21,7 +21,9 @@ const project = new AwsCdkTypeScriptApp({
     "@aws-cdk/core:stackRelativeExports": "true",
     "@aws-cdk/core:newStyleStackSynthesis": true
   },
-  workflowNodeVersion: "7.9.0"
+  minNodeVersion: '10.17.0',
+
+
 
   /* AwsCdkTypeScriptAppOptions */
   // appEntrypoint: 'main.ts',                                                 /* The CDK app's entrypoint (relative to the source directory, which is "src" by default). */
