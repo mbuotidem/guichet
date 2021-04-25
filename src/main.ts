@@ -44,7 +44,7 @@ export class MyStack extends Stack {
         cloudAssemblyArtifact,
         //This build command is to download pillow library, unzip the downloaded file and tidy up.
         //If you already have pillow library downloaded under reklayer/, please just run 'npm run build'
-        //installCommand: 'npm i -g npm && npm i -g aws-cdk@1.95.2 && npm install',
+        installCommand: 'npm i -g npm && npm i -g aws-cdk@1.95.2 && npm install',
         buildCommand: 'npm i -g npm && npm i -g aws-cdk@1.95.2 && npm install',
         synthCommand: 'npx cdk synth'
       })
