@@ -21,7 +21,7 @@ const project = new AwsCdkTypeScriptApp({
     "@aws-cdk/core:stackRelativeExports": "true",
     "@aws-cdk/core:newStyleStackSynthesis": true
   },
-  minNodeVersion: '10.17.0',
+  minNodeVersion: '15.5.1',
 
 
 
