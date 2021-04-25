@@ -60,7 +60,7 @@
           "spawn": "test:compile"
         },
         {
-          "exec": "jest --passWithNoTests --all"
+          "exec": "jest --passWithNoTests --all --updateSnapshot"
         },
         {
           "spawn": "eslint"
