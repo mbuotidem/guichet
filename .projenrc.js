@@ -5,7 +5,6 @@ const project = new AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   jsiiFqn: "projen.AwsCdkTypeScriptApp",
   name: 'guichet',
-  repository: { "type": "git", "url": "https://github.com/mbuotidem/guichet.git" },
   cdkVersionPinning: true,
   authorName: 'Isaac Mbuotidem',
   authorUrl: 'https://mbuotidem.github.io/',
@@ -21,7 +20,8 @@ const project = new AwsCdkTypeScriptApp({
     "aws-cdk:enableDiffNoFail": "true",
     "@aws-cdk/core:stackRelativeExports": "true",
     "@aws-cdk/core:newStyleStackSynthesis": true
-  }
+  },
+  workflowNodeVersion: "7.9.0"
 
   /* AwsCdkTypeScriptAppOptions */
   // appEntrypoint: 'main.ts',                                                 /* The CDK app's entrypoint (relative to the source directory, which is "src" by default). */

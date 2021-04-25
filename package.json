@@ -1,12 +1,5 @@
 {
   "name": "guichet",
-  "repository": {
-    "type": "git",
-    "url": {
-      "type": "git",
-      "url": "https://github.com/mbuotidem/guichet.git"
-    }
-  },
   "scripts": {
     "clobber": "npx projen clobber",
     "compile": "npx projen compile",
