@@ -9,15 +9,15 @@ export class GuichetStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        const hello = new lambda.Function(this, 'HelloHandler', {
+        const transcriber = new lambda.Function(this, 'Transcriber', {
             runtime: lambda.Runtime.NODEJS_10_X,
             code: lambda.Code.fromAsset('lambda'),
-            handler: 'hello.handler'
+            handler: 'transcriber.handler'
         });
 
 
-        this.lambdaName = new cdk.CfnOutput(this, 'TableViewerUrl', {
-            value: hello.functionName
+        this.lambdaName = new cdk.CfnOutput(this, 'TranscriberLambdaName', {
+            value: transcriber.functionName
         });
     }
 }

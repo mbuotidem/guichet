@@ -42,8 +42,6 @@ export class MyStack extends Stack {
       synthAction: SimpleSynthAction.standardNpmSynth({
         sourceArtifact,
         cloudAssemblyArtifact,
-        //This build command is to download pillow library, unzip the downloaded file and tidy up.
-        //If you already have pillow library downloaded under reklayer/, please just run 'npm run build'
         installCommand: 'npm i -g npm && npm i -g aws-cdk@1.95.2 && npm install',
         synthCommand: 'npx cdk synth'
       })
@@ -63,7 +61,7 @@ const devEnv = {
 
 const app = new App();
 
-new MyStack(app, 'my-stack-dev', { env: devEnv });
-// new MyStack(app, 'my-stack-prod', { env: prodEnv });
+new MyStack(app, 'GuichetPipelineDev', { env: devEnv });
+// new MyStack(app, 'GuichetPipelineProd', { env: prodEnv });
 
 app.synth();
