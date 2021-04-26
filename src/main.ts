@@ -64,4 +64,4 @@ const app = new App();
 new MyStack(app, 'GuichetPipelineDev', { env: devEnv });
 // new MyStack(app, 'GuichetPipelineProd', { env: prodEnv });
 
-app.synth();
+//app.synth();
