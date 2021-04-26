@@ -42,7 +42,7 @@ export class MyStack extends Stack {
       synthAction: SimpleSynthAction.standardNpmSynth({
         sourceArtifact,
         cloudAssemblyArtifact,
-        installCommand: 'npm i -g npm && npm i -g aws-cdk@1.95.2 && npm install',
+        installCommand: 'npm i -g aws-cdk@1.95.2 && npm install',
         synthCommand: 'npx cdk synth'
       })
     });
