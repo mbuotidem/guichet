@@ -63,5 +63,4 @@ const app = new App();
 
 new GuichetPipelineStack(app, 'GuichetPipelineDev', { env: devEnv });
 // new GuichetPipelineStack(app, 'GuichetPipelineProd', { env: prodEnv });
-
-app.synth();
+//app.synth();
