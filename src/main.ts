@@ -4,6 +4,7 @@ import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
 import { SimpleSynthAction, CdkPipeline } from "@aws-cdk/pipelines";
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { GuichetPipelineStage } from './pipeline-stage';
+import { GuichetStack } from './guichet';
 
 export class GuichetPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -64,3 +65,4 @@ const app = new App();
 new GuichetPipelineStack(app, 'GuichetPipelineDev', { env: devEnv });
 // new GuichetPipelineStack(app, 'GuichetPipelineProd', { env: prodEnv });
 //app.synth();
+new GuichetStack(app, 'GuichetStack');
