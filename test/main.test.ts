@@ -31,8 +31,8 @@ describe('Create Pipeline', () => {
                     Owner: objectLike({}),
                     Repo: objectLike({}),
                     Branch: objectLike({}),
-                    OAuthToken: "{{resolve:secretsmanager:guichet-repo-git-token:SecretString:guichet-repo-git-token::}}",
-                    PollForSourceChanges: false
+                    OAuthToken: '{{resolve:secretsmanager:guichet-repo-git-token:SecretString:guichet-repo-git-token::}}',
+                    PollForSourceChanges: false,
                   }),
                   Name: 'GitHub',
                   OutputArtifacts: arrayWith(
@@ -41,9 +41,9 @@ describe('Create Pipeline', () => {
                     })),
                   RunOrder: 1,
 
-                })
-              )
-            })
+                }),
+              ),
+            }),
           });
       });
 
@@ -55,9 +55,9 @@ describe('Create Pipeline', () => {
               Actions: arrayWith(
                 objectLike({
 
-                })
-              )
-            })
+                }),
+              ),
+            }),
           });
       });
 
@@ -74,6 +74,5 @@ describe('Create Pipeline', () => {
     });
   });
 });
-
 
 

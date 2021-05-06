@@ -3,7 +3,7 @@ const { AwsCdkTypeScriptApp } = require('projen');
 const project = new AwsCdkTypeScriptApp({
   cdkVersion: '1.99.0',
   defaultReleaseBranch: 'main',
-  jsiiFqn: "projen.AwsCdkTypeScriptApp",
+  jsiiFqn: 'projen.AwsCdkTypeScriptApp',
   name: 'guichet',
   cdkVersionPinning: true,
   authorName: 'Isaac Mbuotidem',
@@ -13,15 +13,20 @@ const project = new AwsCdkTypeScriptApp({
     '@aws-cdk/aws-codepipeline-actions',
     '@aws-cdk/pipelines',
     '@aws-cdk/aws-ssm',
-    '@aws-cdk/aws-lambda'
+    '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-s3',
+    '@aws-cdk/aws-dynamodb',
+    '@aws-cdk/aws-lambda-event-sources',
+    '@aws-cdk/aws-iam',
   ],
   context: {
-    "@aws-cdk/core:enableStackNameDuplicates": "true",
-    "aws-cdk:enableDiffNoFail": "true",
-    "@aws-cdk/core:stackRelativeExports": "true",
-    "@aws-cdk/core:newStyleStackSynthesis": true
-  }
-
+    '@aws-cdk/core:enableStackNameDuplicates': 'true',
+    'aws-cdk:enableDiffNoFail': 'true',
+    '@aws-cdk/core:stackRelativeExports': 'true',
+    '@aws-cdk/core:newStyleStackSynthesis': true,
+  },
+  gitignore: ['.aws-sam', 'synthed']
+  //appEntrypoint: 'guichet.ts'
   /* AwsCdkTypeScriptAppOptions */
   // appEntrypoint: 'main.ts',                                                 /* The CDK app's entrypoint (relative to the source directory, which is "src" by default). */
   // cdkDependencies: undefined,                                               /* Which AWS CDK modules (those that start with "@aws-cdk/") this app uses. */
