@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "us-east-1",
+            "eventTime": "2021-05-06T21:46:41.023Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "AWS:AIDAZASZBW3HLJYQZ5ED7"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "69.180.159.42"
+            },
+            "responseElements": {
+                "x-amz-request-id": "M4TGXYS5SQR5T0JP",
+                "x-amz-id-2": "sTZ8ht9mlBAdkCrpHtxkW6Vn43tP9DxBeoqCqNjfnWKErWqICBY1M4R+Yuq+zwLbaxiohHqPyKFhF+m4jbY9PLq2IpFvoHeL"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "NmZhNmE3NTQtODM4NC00MmEwLThlYjgtZTI1OTgyYzkyODBk",
+                "bucket": {
+                    "name": "dev-guichet-audiobucket96beecba-qy976efbe0do",
+                    "ownerIdentity": {
+                        "principalId": "ACTRE0SNP1MN3"
+                    },
+                    "arn": "arn:aws:s3:::dev-guichet-audiobucket96beecba-qy976efbe0do"
+                },
+                "object": {
+                    "key": "Recording.m4a",
+                    "size": 35206,
+                    "eTag": "6da6eb61a7b1fc3e009417dcff10faf3",
+                    "sequencer": "00609463C3DA3CC101"
+                }
+            }
+        }
+    ]
+}

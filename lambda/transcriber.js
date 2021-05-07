@@ -1,17 +1,24 @@
-//Environment variables
+//Constants and Environment variables
+const RESERVED_RESPONSE = `Error: You're using AWS reserved keywords as attributes`,
+    DYNAMODB_EXECUTION_ERROR = `Error: Execution update, caused a Dynamodb error, please take a look at your CloudWatch Logs.`;
 const REGION = process.env.AWS_REGION;
 const TABLE_NAME = process.env.TABLE_NAME || '';
 const BUCKET_NAME = process.env.BUCKET_NAME || '';
+let result;
+let transcriptUrl;;
+let transcript;
 
-//Required sdk
+//Required modules
 const {
     TranscribeClient,
     StartTranscriptionJobCommand,
     GetTranscriptionJobCommand,
 } = require("@aws-sdk/client-transcribe");
 
+const axios = require("axios");
 const aws = require('aws-sdk');
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
+const db = new aws.DynamoDB.DocumentClient();
 
 
 // Create the transcription job name. In this case, it's the current date and time.
@@ -48,13 +55,65 @@ const createTranscriptionJob = async (recording, jobName, bucket, key) => {
     try {
         // Start the transcription job.
         const data = await client.send(new StartTranscriptionJobCommand(params));
-        console.log("Success - transcription submitted", data);
+        console.log("Transcription submitted. Status: ", data.TranscriptionJob.TranscriptionJobStatus);
+        const jobName = data.TranscriptionJob.TranscriptionJobName;
+        return jobName;
+
     } catch (err) {
         console.log("Error", err);
     }
 };
 
 
+const getData = async url => {
+    try {
+        const response = await axios.get(url);
+        console.log("Transcription submitted. Status: ", response.data.status);
+        result = response.data.results.transcripts[0].transcript;
+        return result
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+function sleep(ms) {
+    // add ms millisecond timeout before promise resolution
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function getFinishedJob(jobDetails) {
+    await sleep(30000);
+    status = await client.send(new GetTranscriptionJobCommand(jobDetails));
+
+    transcriptUrl = status['TranscriptionJob']['Transcript']['TranscriptFileUri'];
+
+    transcript = await getData(transcriptUrl);
+
+    console.log(transcript);
+
+    const item = {
+
+    }
+
+    const params = {
+        TableName: TABLE_NAME,
+        Item: {
+            'audio': { S: jobDetails.TranscriptionJobName },
+            'transcript': { S: transcript }
+        }
+    };
+
+    try {
+        console.log(params)
+        await db.put(params).promise();
+        return { statusCode: 201, body: '' };
+    } catch (dbError) {
+        const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword') ?
+            DYNAMODB_EXECUTION_ERROR : RESERVED_RESPONSE;
+        return { statusCode: 500, body: errorResponse };
+    }
+
+}
 
 exports.handler = async function (event) {
     console.log("request:", JSON.stringify(event, undefined, 2));
@@ -62,23 +121,14 @@ exports.handler = async function (event) {
     // Get the object from the event and show its content type
     const bucket = event.Records[0].s3.bucket.name;
     const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
-    const params = {
-        Bucket: bucket,
-        Key: key,
-    };
-    try {
-        const { ContentType } = await s3.getObject(params).promise();
-        console.log('CONTENT TYPE:', ContentType);
 
-        createTranscriptionJob(
-            "s3://" + params.Bucket + "/" + key,
+    try {
+        result = await createTranscriptionJob(
+            "s3://" + bucket + "/" + key,
             jobName,
             //bucket,
             //key
         );
-
-
-        //return ContentType;
     } catch (err) {
         console.log(err);
         const message = `Error getting object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
@@ -87,11 +137,23 @@ exports.handler = async function (event) {
     }
 
 
+    const jobDetails = {
+        TranscriptionJobName: result
+    };
+
+    console.log(jobDetails);
+
+    hello = await getFinishedJob(jobDetails);
+
+
     return {
         statusCode: 200,
         headers: { "Content-Type": "text/plain" },
-        body: `Ran without errors\n`
+        body: `Transcript: ${transcript}\n `
     };
+
+
+
 };
 
 
