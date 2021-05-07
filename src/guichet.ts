@@ -63,7 +63,7 @@ export class GuichetStack extends cdk.Stack {
 
     transcriber.addToRolePolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ['transcribe:StartTranscriptionJob'],
+      actions: ['transcribe:StartTranscriptionJob', 'transcribe:GetTranscriptionJob'],
       resources: ['*'],
     }));
 
