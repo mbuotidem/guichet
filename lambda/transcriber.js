@@ -18,7 +18,7 @@ const {
 const axios = require("axios");
 const aws = require('aws-sdk');
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
-const db = new aws.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
+const db = new aws.DynamoDB({ apiVersion: '2012-08-10' });
 
 
 // Create the transcription job name. In this case, it's the current date and time.
