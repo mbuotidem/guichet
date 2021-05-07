@@ -102,16 +102,14 @@ async function getFinishedJob(jobDetails) {
             'transcript': { S: transcript }
         }
     };
-
-    try {
-        console.log(params)
-        await db.put(params).promise();
-        return { statusCode: 201, body: '' };
-    } catch (dbError) {
-        const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword') ?
-            DYNAMODB_EXECUTION_ERROR : RESERVED_RESPONSE;
-        return { statusCode: 500, body: errorResponse };
-    }
+    // Call DynamoDB to add the item to the table
+    ddb.putItem(params, function (err, data) {
+        if (err) {
+            console.log("Error", err);
+        } else {
+            console.log("Success", data);
+        }
+    });
 
 }
 
