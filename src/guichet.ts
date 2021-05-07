@@ -30,6 +30,15 @@ export class GuichetStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'ddbTable', { value: table.tableName });
 
+    //lambda layer
+
+    const layer = new lambda.LayerVersion(this, 'pil', {
+      code: lambda.Code.fromAsset("lambda/node_modules"),
+      compatibleRuntimes: [lambda.Runtime.PYTHON_3_7],
+      license: "Apache-2.0",
+      description: "A layer to enable the PIL library in our Rekognition Lambda",
+    });
+
     //transcriber lambda
     const transcriber = new lambda.Function(this, 'Transcriber', {
       runtime: lambda.Runtime.NODEJS_10_X,
@@ -42,6 +51,7 @@ export class GuichetStack extends cdk.Stack {
         TABLE_NAME: table.tableName,
         BUCKET_NAME: audioBucket.bucketName,
       },
+      layers: [layer]
     });
 
     transcriber.addEventSource(new event_sources.S3EventSource(audioBucket, { events: [s3.EventType.OBJECT_CREATED] }));
