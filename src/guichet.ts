@@ -34,7 +34,7 @@ export class GuichetStack extends cdk.Stack {
 
     const layer = new lambda.LayerVersion(this, 'pil', {
       code: lambda.Code.fromAsset("lambda/node_modules"),
-      compatibleRuntimes: [lambda.Runtime.PYTHON_3_7],
+      compatibleRuntimes: [lambda.Runtime.NODEJS_10_X],
       license: "Apache-2.0",
       description: "A layer to enable the PIL library in our Rekognition Lambda",
     });
