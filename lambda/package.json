@@ -9,6 +9,7 @@
     "author": "Isaac M",
     "license": "MIT-0",
     "dependencies": {
+        "@aws-sdk/client-dynamodb": "3.14.0",
         "@aws-sdk/client-transcribe": "3.14.0",
         "axios": "^0.21.1"
     }

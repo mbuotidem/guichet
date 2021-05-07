@@ -15,10 +15,17 @@ const {
     GetTranscriptionJobCommand,
 } = require("@aws-sdk/client-transcribe");
 
+const {
+    DynamoDBClient,
+    PutItemCommand
+} = require('@aws-sdk/client-dynamodb')
+
 const axios = require("axios");
 const aws = require('aws-sdk');
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
-const db = new aws.DynamoDB({ apiVersion: '2012-08-10' });
+
+
+
 
 
 // Create the transcription job name. In this case, it's the current date and time.
@@ -91,28 +98,19 @@ async function getFinishedJob(jobDetails) {
 
     console.log(transcript);
 
-    const item = {
 
-    }
+    // var params = {
+    //     TableName: "dev-Guichet-audioTranscriptions1A6D233C-3804JA3Y7UZ9",
+    //     Item: {
+    //         'audio': { S: "hello" },
+    //         'transcript': { S: "there" }
+    //     }
+    // };
 
-    const params = {
-        TableName: TABLE_NAME,
-        Item: {
-            'audio': { S: jobDetails.TranscriptionJobName },
-            'transcript': { S: transcript }
-        }
-    };
     // Call DynamoDB to add the item to the table
 
-    db.putItem(params, function (err, data) {
-        if (err) {
-            console.log("Error", err);
-        } else {
-            console.log("Success", data);
-        }
-    });
-
 }
+
 
 exports.handler = async function (event) {
     console.log("request:", JSON.stringify(event, undefined, 2));
@@ -142,7 +140,30 @@ exports.handler = async function (event) {
 
     console.log(jobDetails);
 
-    hello = await getFinishedJob(jobDetails);
+    var params = {
+        TableName: TABLE_NAME,
+        Item: {
+            'audio': { N: '002' },
+            'transcript': { S: 'Hello' }
+        }
+    };
+
+    // Create DynamoDB service object
+    const dbclient = new DynamoDBClient({ region: REGION });
+
+    const run = async (params) => {
+        try {
+            console.log("trying to put items", params);
+            const data = await dbclient.send(new PutItemCommand(params));
+            console.log(data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    run(params);
+    //hello = await getFinishedJob(jobDetails);
+
+
 
 
     return {
