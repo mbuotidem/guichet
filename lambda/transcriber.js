@@ -120,19 +120,19 @@ exports.handler = async function (event) {
     const bucket = event.Records[0].s3.bucket.name;
     const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
 
-    // try {
-    //     result = await createTranscriptionJob(
-    //         "s3://" + bucket + "/" + key,
-    //         jobName,
-    //         //bucket,
-    //         //key
-    //     );
-    // } catch (err) {
-    //     console.log(err);
-    //     const message = `Error getting object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
-    //     console.log(message);
-    //     throw new Error(message);
-    // }
+    try {
+        result = await createTranscriptionJob(
+            "s3://" + bucket + "/" + key,
+            jobName,
+            //bucket,
+            //key
+        );
+    } catch (err) {
+        console.log(err);
+        const message = `Error getting object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
+        console.log(message);
+        throw new Error(message);
+    }
 
 
     const jobDetails = {
@@ -141,20 +141,22 @@ exports.handler = async function (event) {
 
     console.log(jobDetails);
 
+    hello = await getFinishedJob(jobDetails);
+
     var params = {
         TableName: TABLE_NAME,
         Item: {
-            audio: { S: '002' },
-            transcription: { S: 'Hello' }
+            audio: { S: jobDetails.TranscriptionJobName },
+            transcription: { S: transcript }
         },
     };
 
 
-    hello = await run(params);
-
     console.log("this is hello", hello);
 
-    //hello = await getFinishedJob(jobDetails);
+    await run(params);
+
+
 
 
 
