@@ -44,6 +44,7 @@ export class GuichetPipelineStack extends Stack {
         sourceArtifact,
         cloudAssemblyArtifact,
         installCommand: 'npm i -g aws-cdk@1.95.2 && npm install',
+        buildCommand: "cd lambda && npm install",
         synthCommand: 'npx cdk synth',
       }),
     });
