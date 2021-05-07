@@ -32,11 +32,11 @@ export class GuichetStack extends cdk.Stack {
 
     //lambda layer
 
-    const layer = new lambda.LayerVersion(this, 'pil', {
-      code: lambda.Code.fromAsset("lambda/node_modules"),
+    const layer = new lambda.LayerVersion(this, 'node_modules', {
+      code: lambda.Code.fromAsset("lambda/lambda_modules"),
       compatibleRuntimes: [lambda.Runtime.NODEJS_10_X],
       license: "Apache-2.0",
-      description: "A layer to enable the PIL library in our Rekognition Lambda",
+      description: "node_modules, axios and aws-transcribe",
     });
 
     //transcriber lambda
