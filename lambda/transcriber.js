@@ -98,17 +98,6 @@ async function getFinishedJob(jobDetails) {
 
     console.log(transcript);
 
-
-    // var params = {
-    //     TableName: "dev-Guichet-audioTranscriptions1A6D233C-3804JA3Y7UZ9",
-    //     Item: {
-    //         'audio': { S: "hello" },
-    //         'transcript': { S: "there" }
-    //     }
-    // };
-
-    // Call DynamoDB to add the item to the table
-
 }
 
 
@@ -119,19 +108,19 @@ exports.handler = async function (event) {
     const bucket = event.Records[0].s3.bucket.name;
     const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
 
-    try {
-        result = await createTranscriptionJob(
-            "s3://" + bucket + "/" + key,
-            jobName,
-            //bucket,
-            //key
-        );
-    } catch (err) {
-        console.log(err);
-        const message = `Error getting object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
-        console.log(message);
-        throw new Error(message);
-    }
+    // try {
+    //     result = await createTranscriptionJob(
+    //         "s3://" + bucket + "/" + key,
+    //         jobName,
+    //         //bucket,
+    //         //key
+    //     );
+    // } catch (err) {
+    //     console.log(err);
+    //     const message = `Error getting object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
+    //     console.log(message);
+    //     throw new Error(message);
+    // }
 
 
     const jobDetails = {
@@ -143,9 +132,9 @@ exports.handler = async function (event) {
     var params = {
         TableName: TABLE_NAME,
         Item: {
-            'audio': { N: '002' },
-            'transcript': { S: 'Hello' }
-        }
+            audio: { S: '002' },
+            transcription: { S: 'Hello' }
+        },
     };
 
     // Create DynamoDB service object
