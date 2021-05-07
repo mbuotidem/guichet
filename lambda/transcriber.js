@@ -98,8 +98,8 @@ async function getFinishedJob(jobDetails) {
     const params = {
         TableName: TABLE_NAME,
         Item: {
-            'audio': { S: jobDetails.TranscriptionJobName },
-            'transcript': { S: transcript }
+            'audio': { "S": jobDetails.TranscriptionJobName },
+            'transcript': { "S": transcript }
         }
     };
 
