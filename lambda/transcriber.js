@@ -100,6 +100,18 @@ async function getFinishedJob(jobDetails) {
 
 }
 
+// Create DynamoDB service object
+const dbclient = new DynamoDBClient({ region: REGION });
+
+const run = async (params) => {
+    try {
+        console.log("trying to put items", params);
+        const data = await dbclient.send(new PutItemCommand(params));
+        console.log("this is data", data);
+    } catch (err) {
+        console.error(err);
+    }
+};
 
 exports.handler = async function (event) {
     console.log("request:", JSON.stringify(event, undefined, 2));
@@ -137,19 +149,11 @@ exports.handler = async function (event) {
         },
     };
 
-    // Create DynamoDB service object
-    const dbclient = new DynamoDBClient({ region: REGION });
 
-    const run = async (params) => {
-        try {
-            console.log("trying to put items", params);
-            const data = await dbclient.send(new PutItemCommand(params));
-            console.log(data);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-    run(params);
+    hello = await run(params);
+
+    console.log("this is hello", hello);
+
     //hello = await getFinishedJob(jobDetails);
 
 
