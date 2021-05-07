@@ -33,10 +33,11 @@ export class GuichetStack extends cdk.Stack {
     //lambda layer
 
     const layer = new lambda.LayerVersion(this, 'node_modules', {
-      code: lambda.Code.fromAsset("lambda/lambda_modules"),
+      code: lambda.Code.fromAsset("lambda/deps.zip"),
       compatibleRuntimes: [lambda.Runtime.NODEJS_10_X],
       license: "Apache-2.0",
       description: "node_modules, axios and aws-transcribe",
+
     });
 
     //transcriber lambda
